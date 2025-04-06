@@ -1,7 +1,7 @@
 # Tumblr Script
 This is an all-purpose script to read out new Tumblr 
 posts from almost any user on the site.
-##### Created by Kauntar
+##### Created by [<img src="https://avatars.githubusercontent.com/u/100171133?v=4&size=64" width="16" style="border-radius:100px;"/>](image.png) [Kauntar](https://kauntar.github.io/)
 
 ## Requirements
 To use this script, you will need the following:
