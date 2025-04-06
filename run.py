@@ -12,6 +12,38 @@ class kd:
     u = Fore.BLUE
     e = Fore.RED
 
+if os.name == 'nt':  # For Windows
+    os.system('cls')
+else:  # For macOS and Linux
+    os.system('clear')
+
+terminal_size = os.get_terminal_size()
+text_width = terminal_size.columns
+
+asciiIntro = """___________           ___.   .__                 
+\\__    ___/_ __  _____\\_ |__ |  |_______         
+  |    | |  |  \\/     \\| __ \\|  |\\_  __ \\        
+  |    | |  |  /  Y Y  \\ \\_\\ \\  |_|  | \\/        
+  |____| |____/|__|_|  /___  /____/__|           
+                     \\/    \\/                    
+            _________            .__        __   
+           /   _____/ ___________|__|______/  |_ 
+           \\_____  \\_/ ___\\_  __ \\  \\____ \\   __\\
+           /        \\  \\___|  | \\/  |  |_> >  |  
+          /_______  /\\___  >__|  |__|   __/|__|  
+                  \\/     \\/         |__|         """
+
+textIntro = "="*text_width
+textIntro += "\nTumblrScript"
+textIntro += "\n- Created by Kauntar\n"
+textIntro += "="*text_width
+
+if(text_width >= 49):
+    print(asciiIntro+"\n\n")
+else:
+    print(textIntro+"\n\n")
+
+
 tumblrUser = input(f"What user would you like to monitor? {kd.u}")
 tumblerUrl = f"https://{tumblrUser}.tumblr.com/rss"
 
@@ -38,16 +70,6 @@ if(useOldTrack != "y"):
 data = open(dataFile, "r").read()
 
 #
-# Ping everyone area
-#
-while True:
-    usePing = input(f"\n{kd.r}Do you want to ping everyone? (y/n) {kd.u}")
-    if((usePing != "y") and (usePing != "n")):
-        print(f"{kd.e}Please say y or n.{kd.r}")
-    if((usePing == "y") or (usePing == "n")):
-        break
-
-#
 # Discord Webhook Integration
 #
 while True:
@@ -58,7 +80,14 @@ while True:
         break
 if(useWebhook == "y"):
     webhookUrl = input(f"{kd.r}What is the webhook URL? {kd.u}")
-    print(f"{kd.r}Using webhook: {kd.s+webhookUrl+kd.r}.\n\n")
+    print(f"{kd.r}Using webhook: {kd.s+webhookUrl+kd.r}.\n")
+    
+    while True:
+        usePing = input(f"{kd.r}Do you want to ping everyone? (y/n) {kd.u}")
+        if((usePing != "y") and (usePing != "n")):
+            print(f"{kd.e}Please say y or n.{kd.r}")
+        if((usePing == "y") or (usePing == "n")):
+            break
 
 def postToDiscord(uid, title, desc):
     username = f"{tumblrUser} ({uid})"
@@ -91,8 +120,6 @@ while True:
     soup = BeautifulSoup(r.text, 'xml')
     
     listings = soup.find_all('item')[::-1]
-    terminal_size = os.get_terminal_size()
-    text_width = terminal_size.columns
     new_listings = 0
     for listing in listings:
         
@@ -143,6 +170,6 @@ while True:
     tick_msg = f" [Tick] {new_listings} new posts [Tick] "
     tick_width_left = math.ceil((text_width - len(tick_msg)) / 2)
     tick_width_right = math.floor((text_width - len(tick_msg)) / 2)
-    print(("-"*tick_width_left)+tick_msg+("-"*tick_width_right))
+    print(kd.r+("-"*tick_width_left)+tick_msg+("-"*tick_width_right))
     
     time.sleep(30)
